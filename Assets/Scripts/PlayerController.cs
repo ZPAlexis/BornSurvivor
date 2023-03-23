@@ -5,20 +5,29 @@ using UnityEngine.InputSystem;
 
 /*
 *Videos source - Unity New Control Scheme
-* - Brackeys - https://www.youtube.com/watch?v=Pzd8NhcRzVo
-* - BMo - https://www.youtube.com/watch?v=HmXU4dZbaMw
-* - SunnyValleyStudio - https://www.youtube.com/watch?v=DPqc7qYDtzM - mouseposition track
+* - Brackeys - New input system - https://www.youtube.com/watch?v=Pzd8NhcRzVo
+* - BMo - New input system - https://www.youtube.com/watch?v=HmXU4dZbaMw
+* - SunnyValleyStudio - mouseposition track - https://www.youtube.com/watch?v=DPqc7qYDtzM
+* - SunnyValleyStudio - combat attacks - https://www.youtube.com/watch?v=7vMHTUwtyNs
 */
 
 public class PlayerController : MonoBehaviour
 {
-    public float moveSpeed = 5f;
     public Rigidbody2D rb;
-    public Animator animator;
+    public Animator animator, weaponAnimator;
     public PlayerInputActions controls;
     Vector2 movement, pointerInput;
-    private InputAction move, fire, mousePosition/*, dash , look*/;
     private WeaponParent weaponParent;
+    private InputAction move, fire, mousePosition/*, dash , look*/;
+
+    public Transform attackPoint;
+    public float moveSpeed = 5f;
+    public float gcd = 0.3f;
+    public float attackRange = 0.5f;
+    public LayerMask enemyLayers;
+    private bool attackOnGCD;
+    public int attackDMG = 20;
+
     private void Awake()
     {
         controls = new PlayerInputActions();
@@ -81,8 +90,41 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
-        Debug.Log("We attacked");
+        //Brackeys tips
+        if(attackOnGCD)
+            return;
+        
+        //1) Play animation
+        weaponAnimator.SetTrigger("Attack"); 
+        weaponParent.isAttacking = true;
+        attackOnGCD = true;
+        
+        //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Debug.Log("Attack");
+        
+        //3) Damage enemy
+        foreach(Collider2D enemy in hitEnemies)
+        {
+            enemy.GetComponent<Enemy>().TakeDamage(attackDMG);
+            Debug.Log("We hit " + enemy.name + " for " + attackDMG + " damage.");
+        }
+
+        //Enter GCD
+        StartCoroutine(DelayAttack());
     }
 
+    private IEnumerator DelayAttack()
+    {
+        yield return new WaitForSeconds(gcd);
+        attackOnGCD = false;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        if(attackPoint == null)
+            return;
+        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
 
 }
