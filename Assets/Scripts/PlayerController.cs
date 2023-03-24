@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -98,15 +99,15 @@ public class PlayerController : MonoBehaviour
         weaponAnimator.SetTrigger("Attack"); 
         weaponParent.isAttacking = true;
         attackOnGCD = true;
+        Debug.Log("Attack");
         
         //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
-        Debug.Log("Attack");
         
         //3) Damage enemy
         foreach(Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDMG);
+            enemy.GetComponent<EnemyAI>().TakeDamage(attackDMG);
             Debug.Log("We hit " + enemy.name + " for " + attackDMG + " damage.");
         }
 

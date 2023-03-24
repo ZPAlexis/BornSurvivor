@@ -9,9 +9,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Environment
   - Water
   - UI
+  - Enemies
+  - Debris
+  - Colliders
+  - Player
   - 
   - 
   - 
@@ -25,10 +29,6 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - Layer 1
-  - Layer 2
-  - Layer 3
   - 
   - 
   - 
@@ -51,9 +51,24 @@ TagManager:
   - name: Layer 3
     uniqueID: 4189426099
     locked: 0
+  - name: Debris
+    uniqueID: 2680667615
+    locked: 0
+  - name: EnemyBehind
+    uniqueID: 3159215023
+    locked: 0
   - name: Player
     uniqueID: 2403733417
     locked: 0
   - name: Enemies
     uniqueID: 466471941
+    locked: 0
+  - name: Background
+    uniqueID: 2296381015
+    locked: 0
+  - name: Foreground
+    uniqueID: 471264587
+    locked: 0
+  - name: UI
+    uniqueID: 1696525753
     locked: 0

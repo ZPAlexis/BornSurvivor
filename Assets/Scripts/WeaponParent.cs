@@ -6,8 +6,8 @@ public class WeaponParent : MonoBehaviour
 {
     public SpriteRenderer characterRenderer, weaponRenderer;
     public Vector2 pointerPosition { get; set; }
-    public Transform circleOrigin;
-    public float radius;
+    //public Transform circleOrigin;
+    //public float radius;
     public bool isAttacking { get; set; }
 
     public void ResetIsAttacking()
@@ -27,7 +27,7 @@ public class WeaponParent : MonoBehaviour
         {
             scale.y = -1;
         }
-        else if(direction.x >0)
+        else if(direction.x > 0)
         {
             scale.y = 1;
         }
