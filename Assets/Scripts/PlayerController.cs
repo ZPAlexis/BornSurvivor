@@ -21,12 +21,15 @@ public class PlayerController : MonoBehaviour
     private WeaponParent weaponParent;
     private InputAction move, fire, mousePosition/*, dash , look*/;
 
-    public Transform attackPoint;
-    public float moveSpeed = 5f;
-    public float gcd = 0.3f;
-    public float attackRange = 0.5f;
+    public Transform attackPoint, cameraTarget;
     public LayerMask enemyLayers;
+    public HP hpBar;
     private bool attackOnGCD;
+    public float gcd = 0.3f;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public float moveSpeed = 5f;
+    public float attackRange = 0.5f;
     public int attackDMG = 20;
 
     private void Awake()
@@ -57,6 +60,12 @@ public class PlayerController : MonoBehaviour
         fire.Disable();
     }
 
+    void Start()
+    {
+        currentHealth = maxHealth;
+        hpBar.SetMaxHealth(maxHealth);
+    }
+
     // Update is called once per frame
     void Update() //Input
     {
@@ -70,6 +79,12 @@ public class PlayerController : MonoBehaviour
 
         pointerInput = GetPointerInput();
         weaponParent.pointerPosition = pointerInput;
+        cameraTarget.position = Camera.main.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
+
+        if(Input.GetKeyDown(KeyCode.Space)) // (!)(!)(!) change this to take damage trigger 
+        {
+            TakeDamage(20);
+        }
 
     }
 
@@ -84,8 +99,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 GetPointerInput()
     {
-        Vector3 mousePos = mousePosition.ReadValue<Vector2>();
-        mousePos.z = Camera.main.nearClipPlane;
+        Vector2 mousePos = mousePosition.ReadValue<Vector2>();
+        //mousePos.z = 0; //Camera.main.nearClipPlane;
         return Camera.main.ScreenToWorldPoint(mousePos);
     }
 
@@ -126,6 +141,13 @@ public class PlayerController : MonoBehaviour
         if(attackPoint == null)
             return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+
+        hpBar.SetHealth(currentHealth);
     }
 
 }

@@ -2,33 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using TMPro;
 
 // Brackeys guide - https://youtu.be/jvtFUfJ6CP8?t=924
 
 public class EnemyAI : MonoBehaviour
 {
-    public int maxHP = 100;
-    public bool alive = true;
-    int currentHP;
+    Rigidbody2D rb;
+    Seeker seeker;
     public Animator animator;
     public SpriteRenderer targetSprite, enemySprite;
     public Transform target, enemyGFX;
+    Path path;
+    public HP hpBar;
+    public GameObject ui;
+    int currentWaypoint = 0;
+    bool reachedEndOfPath = false;
+    public bool alive = true;
+    public int maxHP = 100;
+    int currentHP;
     public float speed = 100f;
     public float slowdownDistance = 0.6f;
     public float nextWaypointDistance = 3f; // pickNextWaypointDist needs to be higher than slowdownDistance
-    Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
-    Seeker seeker;
-    Rigidbody2D rb;
 
     void Start()
     {
         currentHP = maxHP;
+        hpBar.SetMaxHealth(maxHP);
         enemySprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
+        target = GameObject.FindWithTag("Player").transform;
+        targetSprite = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();
 
         InvokeRepeating("UpdatePath", 0f, .5f);
     }
@@ -83,11 +89,11 @@ public class EnemyAI : MonoBehaviour
             enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
         }
 
-        if(transform.position.y > target.transform.position.y)
+        if(transform.position.y > target.transform.position.y && alive)
         {
             enemySprite.sortingOrder = targetSprite.sortingOrder - 1;
         }                                                                                                                                                            
-        else if(transform.position.y < target.transform.position.y)
+        else if(transform.position.y < target.transform.position.y && alive)
         {
             enemySprite.sortingOrder = targetSprite.sortingOrder +1;
         }
@@ -100,7 +106,11 @@ public class EnemyAI : MonoBehaviour
             return;
         currentHP -= damage;
 
+        hpBar.SetHealth(currentHP);
+
         animator.SetTrigger("Hurt");
+
+        ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
         if(currentHP <= 0)
         {
@@ -112,11 +122,13 @@ public class EnemyAI : MonoBehaviour
     {
         animator.SetBool("IsDead", true);
         Debug.Log("Enemy died!");
-        GetComponentInChildren<Collider2D>().enabled = false;
+        GetComponent<Collider2D>().enabled = false;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         enemySprite.sortingOrder = targetSprite.sortingOrder - 1;
         alive = false;
-        this.enabled = false;
+        ui.SetActive(false);
+        Destroy(gameObject, 10);
+        //this.enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
