@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 6670130194015803246}
   - component: {fileID: 6670130194015803244}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: EnemyZombieA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,9 +189,9 @@ MonoBehaviour:
   hpBar: {fileID: 6670130193837870711}
   ui: {fileID: 6670130194631147851}
   alive: 1
-  maxHP: 100
-  speed: 100
-  slowdownDistance: 0.1
+  maxHP: 60
+  speed: 120
+  slowdownDistance: 0.01
   nextWaypointDistance: 3
 --- !u!50 &6670130194015803246
 Rigidbody2D:
@@ -318,7 +318,7 @@ GameObject:
   - component: {fileID: 6670130194432315875}
   - component: {fileID: 6670130194432315874}
   m_Layer: 6
-  m_Name: EnemyZombieA
+  m_Name: Texture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,7 +379,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 471264587
   m_SortingLayer: 9
-  m_SortingOrder: 2
+  m_SortingOrder: 10
   m_Sprite: {fileID: 2106907142, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

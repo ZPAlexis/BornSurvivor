@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public Animator animator;
     public AIPath aiPath;
     public SpriteRenderer sprite, player;
-    //public const string Debris = "Debris";
+    public const string Background = "Background";
     public Transform playerTarget;
     
     void Start()
@@ -59,8 +59,8 @@ public class Enemy : MonoBehaviour
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;
         alive = false;
-        //sprite.sortingLayerName = Debris;
-        //sprite.sortingOrder = sprite.sortingOrder - 1;
+        sprite.sortingLayerName = Background;
+        sprite.sortingOrder = sprite.sortingOrder - 1;
         this.enabled = false;
     }
 }

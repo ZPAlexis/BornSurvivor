@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayers;
     public HP hpBar;
     private bool attackOnGCD;
-    public float gcd = 0.3f;
+    public float gcd = 1.0f;
     public int maxHealth = 100;
     public int currentHealth;
     public float moveSpeed = 5f;
@@ -107,14 +107,14 @@ public class PlayerController : MonoBehaviour
     private void Attack(InputAction.CallbackContext context)
     {
         //Brackeys tips
-        if(attackOnGCD)
-            return;
+        if(attackOnGCD){
+        Debug.Log("Attack on GCD");}
+        //    return;
+        else{
+            
         
         //1) Play animation
         weaponAnimator.SetTrigger("Attack"); 
-        weaponParent.isAttacking = true;
-        attackOnGCD = true;
-        Debug.Log("Attack");
         
         //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
@@ -127,13 +127,17 @@ public class PlayerController : MonoBehaviour
         }
 
         //Enter GCD
+        attackOnGCD = true;
+        weaponParent.attackOnGCD = true;
         StartCoroutine(DelayAttack());
+        }
     }
 
     private IEnumerator DelayAttack()
     {
         yield return new WaitForSeconds(gcd);
         attackOnGCD = false;
+        weaponParent.ResetGCD();
     }
 
     void OnDrawGizmosSelected()

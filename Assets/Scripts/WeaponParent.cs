@@ -8,16 +8,16 @@ public class WeaponParent : MonoBehaviour
     public Vector2 pointerPosition { get; set; }
     //public Transform circleOrigin;
     //public float radius;
-    public bool isAttacking { get; set; }
+    public bool attackOnGCD { get; set; }
 
-    public void ResetIsAttacking()
+    public void ResetGCD()
     {
-        isAttacking = false;
+        attackOnGCD = false;
     }
     
     private void Update()
     {
-        if(isAttacking)
+        if(attackOnGCD)
             return;
         Vector2 direction = (pointerPosition-(Vector2)transform.position).normalized;        
         transform.right = direction;

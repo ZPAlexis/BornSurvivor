@@ -19,11 +19,12 @@ public class EnemyAI : MonoBehaviour
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
     public bool alive = true;
-    public int maxHP = 100;
+    public int maxHP = 60;
     int currentHP;
     public float speed = 100f;
-    public float slowdownDistance = 0.6f;
-    public float nextWaypointDistance = 3f; // pickNextWaypointDist needs to be higher than slowdownDistance
+    public float slowdownDistance = 0.01f;
+    public float nextWaypointDistance = 3f; // pickNextWaypointDist needs to be higher than slowdownDistance.
+    public const string Background = "Background";
 
     void Start()
     {
@@ -124,7 +125,8 @@ public class EnemyAI : MonoBehaviour
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        enemySprite.sortingOrder = targetSprite.sortingOrder - 1;
+        enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
+        enemySprite.sortingLayerName = Background;
         alive = false;
         ui.SetActive(false);
         Destroy(gameObject, 10);

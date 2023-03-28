@@ -41,7 +41,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 0.80662906
         inSlope: -1.0150045
         outSlope: -1.0150045
         tangentMode: 0
@@ -50,21 +50,21 @@ AnimationClip:
         outWeight: 0.041594747
       - serializedVersion: 3
         time: 0.2
-        value: -0.033800304
-        inSlope: 0.6019506
-        outSlope: 0.6019506
+        value: 0.26391393
+        inSlope: 0.43558595
+        outSlope: 0.43558595
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.099123046
-        outWeight: 0.06115012
+        outWeight: 0.06412478
       - serializedVersion: 3
         time: 1
-        value: -0.07151374
-        inSlope: 0
-        outSlope: 0
+        value: 0.3788612
+        inSlope: -0.055119667
+        outSlope: -0.055119667
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.063908175
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -141,7 +141,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.5
+        value: 0.80662906
         inSlope: -1.0150045
         outSlope: -1.0150045
         tangentMode: 0
@@ -150,21 +150,21 @@ AnimationClip:
         outWeight: 0.041594747
       - serializedVersion: 3
         time: 0.2
-        value: -0.033800304
-        inSlope: 0.6019506
-        outSlope: 0.6019506
+        value: 0.26391393
+        inSlope: 0.43558595
+        outSlope: 0.43558595
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.099123046
-        outWeight: 0.06115012
+        outWeight: 0.06412478
       - serializedVersion: 3
         time: 1
-        value: -0.07151374
-        inSlope: 0
-        outSlope: 0
+        value: 0.3788612
+        inSlope: -0.055119667
+        outSlope: -0.055119667
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0.063908175
         outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
