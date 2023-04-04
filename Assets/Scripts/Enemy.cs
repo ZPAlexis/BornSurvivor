@@ -2,50 +2,78 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField]
     public int maxHP = 100;
+    [SerializeField]
+    public int damage = 5;
+    [SerializeField]
+    public float speed = 1;    
+    [SerializeField]
+    private EnemyData data;
     public bool alive = true;
     int currentHP;
+    public HP hpBar;
+    //Rigidbody2D rb;
+    public GameObject ui;
     public Animator animator;
     public AIPath aiPath;
-    public SpriteRenderer sprite, player;
+    public SpriteRenderer enemySprite, targetSprite;
     public const string Background = "Background";
     public Transform playerTarget;
     
     void Start()
     {
-        currentHP = maxHP;
-        sprite = GetComponent<SpriteRenderer>();
+        SetEnemyValues();
+        //enemySprite = GetComponentInChildren<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        //rb = GetComponent<Rigidbody2D>();
+        playerTarget = GameObject.FindWithTag("Player").transform;
+        targetSprite = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
         if(aiPath.desiredVelocity.x >= 0.01f)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            enemySprite.transform.localScale = new Vector3(1f, 1f, 1f);
         }
         else if (aiPath.desiredVelocity.x <= -0.01f)
         {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            enemySprite.transform.localScale = new Vector3(-1f, 1f, 1f);
         }
 
-        if(transform.position.y > playerTarget.transform.position.y)
+        if(transform.position.y > playerTarget.transform.position.y && alive)
         {
-            sprite.sortingOrder = player.sortingOrder - 1;
+            enemySprite.sortingOrder = targetSprite.sortingOrder - 1;
         }                                                                                                                                                            
-        else if(transform.position.y < playerTarget.transform.position.y)
+        else if(transform.position.y < playerTarget.transform.position.y && alive)
         {
-            sprite.sortingOrder = player.sortingOrder +1;
+            enemySprite.sortingOrder = targetSprite.sortingOrder +1;
         }
     }
 
+    private void SetEnemyValues()
+    {
+        currentHP = data.maxHP;
+        damage = data.damage;
+        speed = data.speed;
+        hpBar.SetMaxHealth(maxHP);
+    }
     public void TakeDamage(int damage)
     {
+        if(!alive)
+            return;
         currentHP -= damage;
 
+        hpBar.SetHealth(currentHP);
+
         animator.SetTrigger("Hurt");
+
+        ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
         if(currentHP <= 0)
         {
@@ -58,9 +86,31 @@ public class Enemy : MonoBehaviour
         animator.SetBool("IsDead", true);
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
+        enemySprite.sortingLayerName = Background;
         alive = false;
-        sprite.sortingLayerName = Background;
-        sprite.sortingOrder = sprite.sortingOrder - 1;
-        this.enabled = false;
+        ui.SetActive(false);
+        aiPath.canMove = false;
+        Destroy(gameObject, 10);
     }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.tag == "Player" && alive)
+        {
+            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            collider.GetComponent<PlayerController>().TakeDamage(damage);
+        }
+    }
+
+    // private void OnTriggerExit2D(Collider2D collider)
+    // {
+    //     if(collider.gameObject.tag == "Player")
+    //     {
+    //     rb.constraints = RigidbodyConstraints2D.None;
+    //     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    //     }
+    // }
+
 }

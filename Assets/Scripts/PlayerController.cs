@@ -24,8 +24,10 @@ public class PlayerController : MonoBehaviour
     public Transform attackPoint, cameraTarget;
     public LayerMask enemyLayers;
     public HP hpBar;
+    public GameObject ui;
     private bool attackOnGCD;
-    public float gcd = 1.0f;
+    public float gcd = 0.5f;
+    private bool alive;
     public int maxHealth = 100;
     public int currentHealth;
     public float moveSpeed = 5f;
@@ -63,6 +65,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        alive = true;
         hpBar.SetMaxHealth(maxHealth);
     }
 
@@ -80,11 +83,6 @@ public class PlayerController : MonoBehaviour
         pointerInput = GetPointerInput();
         weaponParent.pointerPosition = pointerInput;
         cameraTarget.position = Camera.main.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
-
-        if(Input.GetKeyDown(KeyCode.Space)) // (!)(!)(!) change this to take damage trigger 
-        {
-            TakeDamage(20);
-        }
 
     }
 
@@ -122,7 +120,7 @@ public class PlayerController : MonoBehaviour
         //3) Damage enemy
         foreach(Collider2D enemy in hitEnemies)
         {
-            enemy.GetComponent<EnemyAI>().TakeDamage(attackDMG);
+            enemy.GetComponent<Enemy>().TakeDamage(attackDMG);
             Debug.Log("We hit " + enemy.name + " for " + attackDMG + " damage.");
         }
 
@@ -147,11 +145,36 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
+        if(!alive)
+            return;
         currentHealth -= damage;
 
         hpBar.SetHealth(currentHealth);
+
+        animator.SetTrigger("Hurt");
+
+        ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
+
+        // if(currentHealth <= 0)
+        // {
+        //     Die();
+        // }
     }
+
+    // void Die()
+    // {
+    //     animator.SetBool("IsDead", true);
+    //     Debug.Log("Enemy died!");
+    //     GetComponent<Collider2D>().enabled = false;
+    //     //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    //     enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
+    //     enemySprite.sortingLayerName = Background;
+    //     alive = false;
+    //     ui.SetActive(false);
+    //     aiPath.canMove = false;
+    //     Destroy(gameObject, 10);
+    // }
 
 }
