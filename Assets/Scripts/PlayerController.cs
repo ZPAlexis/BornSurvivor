@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public LogicManager logic;
     public Rigidbody2D rb;
     public Animator animator, weaponAnimator;
     public PlayerInputActions controls;
@@ -64,6 +65,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManager>();
         currentHealth = maxHealth;
         alive = true;
         hpBar.SetMaxHealth(maxHealth);
@@ -74,15 +76,17 @@ public class PlayerController : MonoBehaviour
     {
         //movement.x = Input.GetAxisRaw("Horizontal");
         //movement.y = Input.GetAxisRaw("Vertical");
+        pointerInput = GetPointerInput();
+        cameraTarget.position = Camera.main.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
 
+        if(!alive)
+            return;
         movement = move.ReadValue<Vector2>();
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
         animator.SetFloat("Speed", movement.sqrMagnitude);
 
-        pointerInput = GetPointerInput();
         weaponParent.pointerPosition = pointerInput;
-        cameraTarget.position = Camera.main.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
 
     }
 
@@ -90,7 +94,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate() // Movement
     {
         //rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-
+        if(!alive)
+            return;
         rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
 
     }
@@ -104,6 +109,8 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
+        if(!alive)
+            return;
         //Brackeys tips
         if(attackOnGCD){
         Debug.Log("Attack on GCD");}
@@ -157,24 +164,20 @@ public class PlayerController : MonoBehaviour
 
         ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
-        // if(currentHealth <= 0)
-        // {
-        //     Die();
-        // }
+        if(currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
-    // void Die()
-    // {
-    //     animator.SetBool("IsDead", true);
-    //     Debug.Log("Enemy died!");
-    //     GetComponent<Collider2D>().enabled = false;
-    //     //rb.constraints = RigidbodyConstraints2D.FreezeAll;
-    //     enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
-    //     enemySprite.sortingLayerName = Background;
-    //     alive = false;
-    //     ui.SetActive(false);
-    //     aiPath.canMove = false;
-    //     Destroy(gameObject, 10);
-    // }
+    void Die()
+    {
+        // animator.SetBool("IsDead", true);
+        Debug.Log("You died!");
+        // GetComponent<Collider2D>().enabled = false;
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        alive = false;
+        logic.gameOver();
+    }
 
 }

@@ -1,14 +1,30 @@
-// using System.Collections;
-// using System.Collections.Generic;
-// using UnityEngine;
-// using UnityEngine.UI;
-// using UnityEngine.SceneManagement;
-// using TMPro;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
-// public class LogicManager : MonoBehaviour
-// {
+public class LogicManager : MonoBehaviour
+{
+    public GameObject gameOverScreen;
+
+    public void Start()
+    {
+        Time.timeScale = 1;
+    }
+    public void restartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void gameOver()
+    {
+        gameOverScreen.SetActive(true);
+        Time.timeScale = 0;
+    }
+
 //     public Text o2Text;
-//     public GameObject gameOverScreen;
 //     public GameObject escMenuScreen;
 //     public GameObject optionsMenuScreen;
 //     public float score;
@@ -68,12 +84,6 @@
 //         }
 //     }
 
-//     public void gameOver()
-//     {
-//         updateHighScore(clock);
-//         gameOverScreen.SetActive(true);
-//         Time.timeScale = 0;
-//     }
 
 //     public void escMenuOpen()
 //     {
@@ -87,10 +97,6 @@
 //         Time.timeScale = 1;
 //     }
 
-//     public void restartGame()
-//     {
-//         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-//     }
 
 //     void updateTimerDisplay(float currentTimer)
 //     {
@@ -134,4 +140,4 @@
 //     {
 //         PlayerPrefs.DeleteKey("HighScore"); // or .DeleteAll to delete all player prefs
 //     }
-// }
+}
