@@ -7,13 +7,15 @@ using TMPro;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    public int maxHP = 100;
+    public int maxHP = 60;
     [SerializeField]
-    public int damage = 5;
+    public int damage = 10;
     [SerializeField]
     public float speed = 1;    
     [SerializeField]
     private EnemyData data;
+    private bool attackOnGCD = false;
+    public float gcd = 1f;
     public bool alive = true;
     int currentHP;
     public HP hpBar;
@@ -61,7 +63,7 @@ public class Enemy : MonoBehaviour
         currentHP = data.maxHP;
         damage = data.damage;
         speed = data.speed;
-        hpBar.SetMaxHealth(maxHP);
+        hpBar.SetMaxHealth(data.maxHP);
     }
     public void TakeDamage(int damage)
     {
@@ -84,6 +86,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         animator.SetBool("IsDead", true);
+        aiPath.canMove = false;
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;
         //rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -91,17 +94,28 @@ public class Enemy : MonoBehaviour
         enemySprite.sortingLayerName = Background;
         alive = false;
         ui.SetActive(false);
-        aiPath.canMove = false;
         Destroy(gameObject, 10);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if(attackOnGCD)
+            return;
+        else {
         if(collider.gameObject.tag == "Player" && alive)
         {
             //rb.constraints = RigidbodyConstraints2D.FreezeAll;
             collider.GetComponent<PlayerController>().TakeDamage(damage);
         }
+        attackOnGCD = true;
+        StartCoroutine(DelayAttack());
+        }
+    }
+
+    private IEnumerator DelayAttack()
+    {
+        yield return new WaitForSeconds(gcd);
+        attackOnGCD = false;
     }
 
     // private void OnTriggerExit2D(Collider2D collider)

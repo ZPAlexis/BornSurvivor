@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2317566556330239843}
   - component: {fileID: 2317566556330239854}
   - component: {fileID: 2317566556330239855}
-  - component: {fileID: 2317566556330239848}
   - component: {fileID: 2317566556330239852}
   - component: {fileID: 6719614336558396910}
   m_Layer: 6
@@ -37,6 +36,7 @@ Transform:
   m_Children:
   - {fileID: 2317566557216448997}
   - {fileID: 2317566557012635979}
+  - {fileID: 1439526852103905559}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -52,10 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8948e55b87b24184fa77b63f87afb410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
-  damage: 5
+  maxHP: 60
+  damage: 10
   speed: 1
   data: {fileID: 11400000, guid: 1a5d321c77f9cec4b8c064ad59f20c56, type: 2}
+  gcd: 1
   alive: 1
   hpBar: {fileID: 2317566556774121076}
   ui: {fileID: 2317566557012635976}
@@ -105,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 5
-  radius: 0.58
+  radius: 0.62
   height: 2
   canMove: 1
   maxSpeed: 1
@@ -127,9 +128,9 @@ MonoBehaviour:
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
   rotationSpeed: 360
-  slowdownDistance: 0.69
+  slowdownDistance: 0.7
   pickNextWaypointDist: 2
-  endReachedDistance: 0.44
+  endReachedDistance: 0.8
   alwaysDrawGizmos: 0
   slowWhenNotFacingTarget: 1
   whenCloseToDestination: 0
@@ -148,22 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   target: {fileID: 0}
---- !u!70 &2317566556330239848
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2317566556330239846}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.057672046, y: -0.37546435}
-  m_Size: {x: 0.500004, y: 0.24907139}
-  m_Direction: 1
 --- !u!61 &2317566556330239852
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -177,7 +162,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.010499597, y: -0.015749514}
+  m_Offset: {x: -0.008131504, y: 0.0027613044}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -188,7 +173,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7270081, y: 0.968501}
+  m_Size: {x: 0.7317443, y: 0.93147933}
   m_EdgeRadius: 0
 --- !u!50 &6719614336558396910
 Rigidbody2D:
@@ -688,3 +673,51 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &7745892490687905410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1439526852103905559}
+  - component: {fileID: 4693167745203169040}
+  m_Layer: 8
+  m_Name: EnemyCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1439526852103905559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745892490687905410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2317566556330239842}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &4693167745203169040
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7745892490687905410}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.068089806, y: -0.3598985}
+  m_Size: {x: 0.4334107, y: 0.28020832}
+  m_Direction: 1

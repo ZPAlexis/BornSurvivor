@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     private WeaponParent weaponParent;
     private InputAction move, fire, mousePosition/*, dash , look*/;
 
-    public Transform attackPoint, cameraTarget;
+    public Transform weaponPoint, cameraTarget;
     public LayerMask enemyLayers;
     public HP hpBar;
     public GameObject ui;
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         weaponAnimator.SetTrigger("Attack"); 
         
         //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponPoint.position, attackRange, enemyLayers);
         
         //3) Damage enemy
         foreach(Collider2D enemy in hitEnemies)
@@ -147,9 +147,9 @@ public class PlayerController : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if(attackPoint == null)
+        if(weaponPoint == null)
             return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        Gizmos.DrawWireSphere(weaponPoint.position, attackRange);
     }
 
     public void TakeDamage(int damage)
@@ -161,6 +161,7 @@ public class PlayerController : MonoBehaviour
         hpBar.SetHealth(currentHealth);
 
         animator.SetTrigger("Hurt");
+        Debug.Log("Player took " + damage + " damage.");
 
         ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
