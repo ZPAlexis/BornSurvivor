@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     public bool alive = true;
     int currentHP;
     public HP hpBar;
-    //Rigidbody2D rb;
+    Rigidbody2D rb;
     public GameObject ui;
     public Animator animator;
     public AIPath aiPath;
@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         SetEnemyValues();
         //enemySprite = GetComponentInChildren<SpriteRenderer>();
         animator = GetComponentInChildren<Animator>();
-        //rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         playerTarget = GameObject.FindWithTag("Player").transform;
         targetSprite = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();
     }
@@ -89,7 +89,7 @@ public class Enemy : MonoBehaviour
         aiPath.canMove = false;
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;
-        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
         enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
         enemySprite.sortingLayerName = Background;
         alive = false;

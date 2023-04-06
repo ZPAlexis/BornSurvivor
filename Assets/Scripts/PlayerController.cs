@@ -20,18 +20,23 @@ public class PlayerController : MonoBehaviour
     public PlayerInputActions controls;
     Vector2 movement, pointerInput;
     private WeaponParent weaponParent;
-    private InputAction move, fire, mousePosition/*, dash , look*/;
+    private InputAction move, attack, fire, mousePosition, dash/*, look*/;
 
-    public Transform weaponPoint, cameraTarget;
+    public Transform weaponPoint, firePoint, cameraTarget;
     public LayerMask enemyLayers;
     public HP hpBar;
-    public GameObject ui;
+    public GameObject ui, firePrefab;
     private bool attackOnGCD;
-    public float gcd = 0.5f;
+    private bool fireOnGCD;
+
+    public float atkGCD = 0.5f;
+    public float fireGCD = 0.5f;
+    public float fireForce = 1f;
+
     private bool alive;
     public int maxHealth = 100;
     public int currentHealth;
-    public float moveSpeed = 5f;
+    public float moveSpeed = 7f;
     public float attackRange = 0.5f;
     public int attackDMG = 20;
 
@@ -50,9 +55,13 @@ public class PlayerController : MonoBehaviour
         mousePosition = controls.Player.MousePosition;
         mousePosition.Enable();
 
-        fire = controls.Player.Fire;
+        attack = controls.Player.PrimaryAttack;
+        attack.Enable();
+        attack.performed += Attack;
+
+        fire = controls.Player.SecondaryAttack;
         fire.Enable();
-        fire.performed += Attack;
+        fire.performed += Fire;
     }
 
     private void OnDisable()
@@ -60,6 +69,7 @@ public class PlayerController : MonoBehaviour
         //controls.Disable();
         move.Disable();
         mousePosition.Disable();
+        attack.Disable();
         fire.Disable();
     }
 
@@ -138,11 +148,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Fire(InputAction.CallbackContext context)
+    {
+        if(!alive)
+            return;
+        if(fireOnGCD){
+        Debug.Log("Fire on GCD");}
+        else{
+        
+        GameObject fire = Instantiate(firePrefab, firePoint.position, firePoint.rotation);
+        Rigidbody2D rb = fire.GetComponent<Rigidbody2D>();
+        rb.AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
+
+        fireOnGCD = true;
+        StartCoroutine(DelayFire());
+        }
+    }
+
     private IEnumerator DelayAttack()
     {
-        yield return new WaitForSeconds(gcd);
+        yield return new WaitForSeconds(atkGCD);
         attackOnGCD = false;
         weaponParent.ResetGCD();
+    }
+
+    private IEnumerator DelayFire()
+    {
+        yield return new WaitForSeconds(fireGCD);
+        fireOnGCD = false;
+        //weaponParent.ResetGCD();
     }
 
     void OnDrawGizmosSelected()

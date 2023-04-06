@@ -661,6 +661,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 455408607}
+  - {fileID: 1336819335}
   m_Father: {fileID: 2132153685}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1026,7 +1027,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.48000002, y: 0.39000005, z: 0}
+  m_LocalPosition: {x: 0.48000002, y: 0.39000005, z: -20.666664}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -56293,7 +56294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 879651386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000000029802322, y: 0.99999994, z: 0}
+  m_LocalPosition: {x: -0.000000029802322, y: 0.773411, z: 15.983825}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57253,6 +57254,37 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!1 &1336819334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1336819335}
+  m_Layer: 9
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1336819335
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336819334}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 212655498}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1599479174
 GameObject:
   m_ObjectHideFlags: 0
@@ -62605,14 +62637,19 @@ MonoBehaviour:
   rb: {fileID: 2132153687}
   animator: {fileID: 2132153689}
   weaponAnimator: {fileID: 455408609}
-  weaponPoint: {fileID: 0}
+  weaponPoint: {fileID: 455408607}
+  firePoint: {fileID: 1336819335}
   cameraTarget: {fileID: 223254237}
   enemyLayers:
     serializedVersion: 2
     m_Bits: 64
   hpBar: {fileID: 1004914440}
   ui: {fileID: 3620926460452418935}
-  gcd: 0.5
+  firePrefab: {fileID: 2110237431991736808, guid: 31e9e93f4880d8346a178b61ee7a1fcb,
+    type: 3}
+  atkGCD: 0.5
+  fireGCD: 0.5
+  fireForce: 7
   maxHealth: 100
   currentHealth: 0
   moveSpeed: 5
