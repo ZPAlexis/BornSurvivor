@@ -8,4 +8,6 @@ public class EnemyData : ScriptableObject
     public int maxHP;
     public float speed;
     public int damage;
+
+    // add monster drops (drop data script? - check YT tutorial)
 }

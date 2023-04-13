@@ -86,6 +86,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         animator.SetBool("IsDead", true);
+        GetComponent<LootPool>().InstantiateLoot(transform.position);
         aiPath.canMove = false;
         Debug.Log("Enemy died!");
         GetComponent<Collider2D>().enabled = false;

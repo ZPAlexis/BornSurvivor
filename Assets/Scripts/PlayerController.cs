@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     public float atkGCD = 0.5f;
     public float fireGCD = 0.5f;
     public float fireForce = 1f;
-
     private bool alive;
     public int maxHealth = 100;
     public int currentHealth;
