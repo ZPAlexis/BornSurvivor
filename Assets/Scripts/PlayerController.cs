@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public LogicManager logic;
+    private LevelSystem levelSystem;
     public Rigidbody2D rb;
     public Animator animator, weaponAnimator;
     public PlayerInputActions controls;
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
     public Transform weaponPoint, firePoint, cameraTarget;
     public LayerMask enemyLayers;
     public HP hpBar;
+    public UIXP uiXP;
+
     public GameObject ui, firePrefab;
     private bool attackOnGCD;
     private bool fireOnGCD;
@@ -42,6 +45,9 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerInputActions();
+        LevelSystem levelSystem = new LevelSystem();
+        this.levelSystem = levelSystem;
+        uiXP.SetLevelSystem(levelSystem);
         weaponParent = GetComponentInChildren<WeaponParent>();
     }
 
@@ -204,6 +210,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Heal(int heal)
+    {
+        if(!alive || currentHealth == maxHealth)
+            return;
+        currentHealth += heal;
+
+        hpBar.SetHealth(currentHealth);
+
+        //animator.SetTrigger("Hurt");
+        Debug.Log("Player healed for " + heal + " damage.");
+
+        //ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
+    }
+
     void Die()
     {
         // animator.SetBool("IsDead", true);
@@ -212,6 +232,25 @@ public class PlayerController : MonoBehaviour
         //rb.constraints = RigidbodyConstraints2D.FreezeAll;
         alive = false;
         logic.gameOver();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && alive)
+        {
+            levelSystem.AddExperience(1);
+            Debug.Log("Picked Up" + collider.gameObject.name);
+            Destroy(collider.gameObject, 0);
+        }
+        else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Health" && alive)
+        {
+            Heal(10);
+            Destroy(collider.gameObject, 0);
+        }
+        // else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Coin" && alive)
+        // {
+        //     //adCoins();
+        // }
     }
 
 }

@@ -58,7 +58,6 @@ MonoBehaviour:
   lootList:
   - {fileID: 11400000, guid: 68b3b4cfbff1a468681432140b669d51, type: 2}
   - {fileID: 11400000, guid: 5552908f12d2f4318a6d6239864e68c2, type: 2}
-  - {fileID: 11400000, guid: 9207abe63df104327a36bc1b553c4db6, type: 2}
 --- !u!114 &2317566556330239849
 MonoBehaviour:
   m_ObjectHideFlags: 0

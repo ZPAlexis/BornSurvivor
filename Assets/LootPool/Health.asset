@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lootSprite: {fileID: 21300000, guid: 8f03d65eca65243d0963f648c2e9824a, type: 3}
   lootName: Health
-  dropChance: 20
+  dropChance: 10

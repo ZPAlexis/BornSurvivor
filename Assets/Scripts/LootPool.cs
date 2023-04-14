@@ -38,7 +38,7 @@ public class LootPool : MonoBehaviour
             {
             GameObject lootGameObject = Instantiate(droppedItemPrefab, spawnPosition, Quaternion.identity);
             lootGameObject.GetComponent<SpriteRenderer>().sprite = item.lootSprite;
-
+            lootGameObject.name = item.lootName;
             float dropForce = 10f;
             Vector2 dropDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
             lootGameObject.GetComponent<Rigidbody2D>().AddForce(dropDirection * dropForce, ForceMode2D.Impulse);
