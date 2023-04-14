@@ -89,7 +89,8 @@ public class Enemy : MonoBehaviour
         GetComponent<LootPool>().InstantiateLoot(transform.position);
         aiPath.canMove = false;
         Debug.Log("Enemy died!");
-        GetComponent<Collider2D>().enabled = false;
+        GetComponent<PolygonCollider2D>().enabled = false;
+        GetComponent<CapsuleCollider2D>().enabled = false;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         enemySprite.sortingOrder = enemySprite.sortingOrder - 1;
         enemySprite.sortingLayerName = Background;
@@ -103,7 +104,7 @@ public class Enemy : MonoBehaviour
         if(attackOnGCD)
             return;
         else {
-        if(collider.gameObject.tag == "Player" && alive)
+        if(collider.gameObject.tag == "Player" && collider.GetType() == typeof(BoxCollider2D) && alive)
         {
             //rb.constraints = RigidbodyConstraints2D.FreezeAll;
             collider.GetComponent<PlayerController>().TakeDamage(damage);

@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ZombieADead
+  m_Name: SkeletonSPCDead
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: -1770672575, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+      value: {fileID: 1253841367, guid: d33598d781682e049a53a0a13104ef29, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -40,7 +40,7 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: -1770672575, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+    - {fileID: 1253841367, guid: d33598d781682e049a53a0a13104ef29, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

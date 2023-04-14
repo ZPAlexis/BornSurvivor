@@ -15,13 +15,13 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public LogicManager logic;
-    private LevelSystem levelSystem;
     public Rigidbody2D rb;
     public Animator animator, weaponAnimator;
     public PlayerInputActions controls;
     Vector2 movement, pointerInput;
     private WeaponParent weaponParent;
     private InputAction move, attack, fire, mousePosition, dash/*, look*/;
+    public LevelSystem levelSystem;
 
     public Transform weaponPoint, firePoint, cameraTarget;
     public LayerMask enemyLayers;
@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public GameObject ui, firePrefab;
     private bool attackOnGCD;
     private bool fireOnGCD;
-
+    public Vector3 weaponAdjust;
     public float atkGCD = 0.5f;
     public float fireGCD = 0.5f;
     public float fireForce = 1f;
@@ -45,15 +45,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerInputActions();
-        LevelSystem levelSystem = new LevelSystem();
+        levelSystem = new LevelSystem();
         this.levelSystem = levelSystem;
-        uiXP.SetLevelSystem(levelSystem);
         weaponParent = GetComponentInChildren<WeaponParent>();
+        uiXP.SetLevelSystem(levelSystem);
     }
 
     private void OnEnable()
     {
-        //controls.Enable();
         move = controls.Player.Move;
         move.Enable();
 
@@ -71,11 +70,10 @@ public class PlayerController : MonoBehaviour
 
     private void OnDisable()
     {
-        //controls.Disable();
-        move.Disable();
-        mousePosition.Disable();
         attack.Disable();
+        mousePosition.Disable();
         fire.Disable();
+        move.Disable();
     }
 
     void Start()
@@ -137,13 +135,16 @@ public class PlayerController : MonoBehaviour
         weaponAnimator.SetTrigger("Attack"); 
         
         //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponPoint.position, attackRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponPoint.position + weaponAdjust, attackRange, enemyLayers);
         
         //3) Damage enemy
         foreach(Collider2D enemy in hitEnemies)
         {
+            if (enemy.GetType() == typeof(PolygonCollider2D))
+            {
             enemy.GetComponent<Enemy>().TakeDamage(attackDMG);
             Debug.Log("We hit " + enemy.name + " for " + attackDMG + " damage.");
+            }
         }
 
         //Enter GCD
@@ -188,7 +189,7 @@ public class PlayerController : MonoBehaviour
     {
         if(weaponPoint == null)
             return;
-        Gizmos.DrawWireSphere(weaponPoint.position, attackRange);
+        Gizmos.DrawWireSphere(weaponPoint.position + weaponAdjust, attackRange);
     }
 
     public void TakeDamage(int damage)

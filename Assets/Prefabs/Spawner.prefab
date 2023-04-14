@@ -237,4 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   regularSpawn:
   - {fileID: 2317566556330239846, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
+  - {fileID: 2317566556330239846, guid: faf315330159f465592ef9921e9e3674, type: 3}
+  - {fileID: 2317566556330239846, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
+  - {fileID: 2317566556330239846, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
   spawnRate: 3

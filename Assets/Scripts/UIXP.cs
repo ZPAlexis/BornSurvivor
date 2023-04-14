@@ -8,7 +8,7 @@ public class UIXP : MonoBehaviour
 {
     public Slider slider;
     public TMPro.TextMeshProUGUI levelText;
-    public LevelSystem levelSystem;
+    private LevelSystem levelSystem;
 
     private void Awake()
     {
@@ -35,8 +35,8 @@ public class UIXP : MonoBehaviour
     {
         this.levelSystem = system;
 
-        SetLevelNumber(system.GetLevelNumber());
-        SetXPBarSize(system.GetExperienceToNextLevel(), system.GetExperience());
+        SetLevelNumber(levelSystem.GetLevelNumber());
+        SetXPBarSize(levelSystem.GetExperienceToNextLevel(), levelSystem.GetExperience());
 
         levelSystem.OnExperienceChange += LevelSystem_OnExperienceChange;
         levelSystem.OnLevelChange += LevelSystem_OnLevelChange;
@@ -47,8 +47,9 @@ public class UIXP : MonoBehaviour
         SetXP(levelSystem.GetExperience());
     }
 
-        private void LevelSystem_OnLevelChange(object sender, System.EventArgs e)
+    private void LevelSystem_OnLevelChange(object sender, System.EventArgs e)
     {
+        SetXPBarSize(levelSystem.GetExperienceToNextLevel(), levelSystem.GetExperience());
         SetLevelNumber(levelSystem.GetLevelNumber());
     }
 
