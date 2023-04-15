@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerData data;
     public LogicManager logic;
     public Rigidbody2D rb;
     public Animator animator, weaponAnimator;
@@ -35,9 +36,6 @@ public class PlayerController : MonoBehaviour
     public float atkGCD = 0.5f;
     public float fireGCD = 0.5f;
     public float fireForce = 1f;
-    private bool alive;
-    public int maxHealth = 100;
-    public int currentHealth;
     public float moveSpeed = 7f;
     public float attackRange = 0.5f;
     public int attackDMG = 20;
@@ -45,8 +43,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerInputActions();
-        levelSystem = new LevelSystem();
-        this.levelSystem = levelSystem;
+        this.levelSystem = new LevelSystem();
         weaponParent = GetComponentInChildren<WeaponParent>();
         uiXP.SetLevelSystem(levelSystem);
     }
@@ -78,10 +75,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManager>();
-        currentHealth = maxHealth;
-        alive = true;
-        hpBar.SetMaxHealth(maxHealth);
+        data = new PlayerData(hpBar);
     }
 
     // Update is called once per frame
@@ -92,7 +88,7 @@ public class PlayerController : MonoBehaviour
         pointerInput = GetPointerInput();
         cameraTarget.position = Camera.main.ScreenToWorldPoint(mousePosition.ReadValue<Vector2>());
 
-        if(!alive)
+        if(!data.alive)
             return;
         movement = move.ReadValue<Vector2>();
         animator.SetFloat("Horizontal", movement.x);
@@ -107,7 +103,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate() // Movement
     {
         //rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
-        if(!alive)
+        if(!data.alive)
             return;
         rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
 
@@ -122,7 +118,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
-        if(!alive)
+        if(!data.alive)
             return;
         //Brackeys tips
         if(attackOnGCD){
@@ -156,7 +152,7 @@ public class PlayerController : MonoBehaviour
 
     private void Fire(InputAction.CallbackContext context)
     {
-        if(!alive)
+        if(!data.alive)
             return;
         if(fireOnGCD){
         Debug.Log("Fire on GCD");}
@@ -194,36 +190,22 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(!alive)
+        if(!data.alive)
             return;
-        currentHealth -= damage;
 
-        hpBar.SetHealth(currentHealth);
+        data.addHealth(-damage);
+        hpBar.SetHealth(data.currentHealth);
 
         animator.SetTrigger("Hurt");
-        Debug.Log("Player took " + damage + " damage.");
-
+        //Debug.Log("Player took " + damage + " damage.");
         ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
-        if(currentHealth <= 0)
+        if(data.currentHealth <= 0)
         {
             Die();
         }
     }
 
-    public void Heal(int heal)
-    {
-        if(!alive || currentHealth == maxHealth)
-            return;
-        currentHealth += heal;
-
-        hpBar.SetHealth(currentHealth);
-
-        //animator.SetTrigger("Hurt");
-        Debug.Log("Player healed for " + heal + " damage.");
-
-        //ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
-    }
 
     void Die()
     {
@@ -231,21 +213,21 @@ public class PlayerController : MonoBehaviour
         Debug.Log("You died!");
         // GetComponent<Collider2D>().enabled = false;
         //rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        alive = false;
+        data.alive = false;
         logic.gameOver();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && alive)
+        if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && data.alive)
         {
             levelSystem.AddExperience(1);
             Debug.Log("Picked Up" + collider.gameObject.name);
             Destroy(collider.gameObject, 0);
         }
-        else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Health" && alive)
+        else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Health" && data.alive)
         {
-            Heal(10);
+            data.addHealth(10);
             Destroy(collider.gameObject, 0);
         }
         // else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Coin" && alive)

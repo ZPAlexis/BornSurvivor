@@ -2,8 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerData : MonoBehaviour
-{
+public class PlayerData {
+    public int maxHealth = 100;
+    public int currentHealth;
+
+    public bool alive;
+
+    public HP hpBar;
+
+    public PlayerData(HP hpBar){
+        this.currentHealth = this.maxHealth;
+        this.hpBar = hpBar;
+        this.hpBar.SetMaxHealth(this.maxHealth);
+        this.alive = true;
+    }
+
+    public void addHealth(int amount){
+        if(!this.alive){
+            return;
+        }
+
+        if(amount + this.currentHealth > this.maxHealth){
+            this.currentHealth = this.maxHealth;
+        }else{
+            this.currentHealth += amount;
+        }
+        this.hpBar.SetHealth(this.currentHealth);
+    }
         /* 
         Notes:
         - Player Data to contain:
