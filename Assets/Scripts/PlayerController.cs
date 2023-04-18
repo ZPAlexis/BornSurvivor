@@ -28,17 +28,12 @@ public class PlayerController : MonoBehaviour
     public LayerMask enemyLayers;
     public HP hpBar;
     public UIXP uiXP;
+    private float attackRange = 0.62f;
 
     public GameObject ui, firePrefab;
     private bool attackOnGCD;
     private bool fireOnGCD;
     public Vector3 weaponAdjust;
-    public float atkGCD = 0.5f;
-    public float fireGCD = 0.5f;
-    public float fireForce = 1f;
-    public float moveSpeed = 7f;
-    public float attackRange = 0.5f;
-    public int attackDMG = 20;
 
     private void Awake()
     {
@@ -102,10 +97,10 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate works like Update but executed on a fixed timer, not stuck to the framerate like Update is. By default FixedUpdate is called 50 times per second
     void FixedUpdate() // Movement
     {
-        //rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        //rb.MovePosition(rb.position + movement * data.moveSpeed * Time.fixedDeltaTime);
         if(!data.alive)
             return;
-        rb.velocity = new Vector2(movement.x * moveSpeed, movement.y * moveSpeed);
+        rb.velocity = new Vector2(movement.x * data.moveSpeed, movement.y * data.moveSpeed);
 
     }
 
@@ -131,15 +126,15 @@ public class PlayerController : MonoBehaviour
         weaponAnimator.SetTrigger("Attack"); 
         
         //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponPoint.position + weaponAdjust, attackRange, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(weaponPoint.position + weaponAdjust, data.attackRange, enemyLayers);
         
         //3) Damage enemy
         foreach(Collider2D enemy in hitEnemies)
         {
             if (enemy.GetType() == typeof(PolygonCollider2D))
             {
-            enemy.GetComponent<Enemy>().TakeDamage(attackDMG);
-            Debug.Log("We hit " + enemy.name + " for " + attackDMG + " damage.");
+            enemy.GetComponent<Enemy>().TakeDamage(data.attackDMG);
+            //Debug.Log("We hit " + enemy.name + " for " + data.attackDMG + " damage.");
             }
         }
 
@@ -160,7 +155,7 @@ public class PlayerController : MonoBehaviour
         
         GameObject fire = Instantiate(firePrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D rb = fire.GetComponent<Rigidbody2D>();
-        rb.AddForce(firePoint.right * fireForce, ForceMode2D.Impulse);
+        rb.AddForce(firePoint.right * data.fireForce, ForceMode2D.Impulse);
 
         fireOnGCD = true;
         StartCoroutine(DelayFire());
@@ -169,14 +164,14 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayAttack()
     {
-        yield return new WaitForSeconds(atkGCD);
+        yield return new WaitForSeconds(data.atkGCD);
         attackOnGCD = false;
         weaponParent.ResetGCD();
     }
 
     private IEnumerator DelayFire()
     {
-        yield return new WaitForSeconds(fireGCD);
+        yield return new WaitForSeconds(data.fireGCD);
         fireOnGCD = false;
         //weaponParent.ResetGCD();
     }

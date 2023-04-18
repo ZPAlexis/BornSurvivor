@@ -4,116 +4,153 @@ using UnityEngine;
 
 public class MonsterSpawner : MonoBehaviour
 {
-    public GameObject[] regularSpawn;
-    public float spawnRate = 3;
-    // public float heighOffset = 8;
-    private float timer = 0;
-    // private float difficultyClock = 0;
-    // public float easyDifficulty = 30;
-    // public float mediumDifficulty = 60;
-    // public float hardDifficulty = 90;
-    List<int>list = new List<int>(); 
+    public LogicManager logic;
+    public GameObject[] spawnGroup1;
+    public GameObject[] spawnGroup2;
+    public GameObject[] spawnGroup3;
+    public GameObject[] spawnGroup4;
+    public GameObject[] spawnGroup5;
+    public GameObject[] spawnGroup6;
+    public GameObject[] spawnGroup7;
+    public GameObject[] spawnGroup8;
+    public GameObject[] spawnGroup9;
+    public GameObject[] spawnGroup10;
+    public GameObject[] spawnGroup11;
+    public GameObject[] spawnGroup12;
+    public GameObject[] spawnGroup13;
+    public GameObject[] spawnGroup14;
+    public float spawnRate = 6;
+    public float spawnOffset = 1;
+    private float spawnTimer = 0;
+    List<GameObject[]>list = new List<GameObject[]>(); 
 
     void Start()
     {
-        FillList();
-        spawnEnemy(GetNonRepeatRandom());
+        // FillList();
+        spawnEasyGroup();
+        logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicManager>();
+
     }
     void Update()
     {
-        if(timer<spawnRate)
+        if(spawnTimer<spawnRate)
         {
-            timer += Time.deltaTime;
+            spawnTimer += Time.deltaTime;
         }
         else
         {
-            timer = 0;
-            spawnEnemy(GetNonRepeatRandom());
+            spawnTimer = 0;
+            if(logic.GetDifficulty() == "Easy")
+            {
+                spawnEasyGroup();
+            }
+            if(logic.GetDifficulty() == "Normal")
+            {
+                spawnNormalGroup();
+            }
+            if(logic.GetDifficulty() == "Hard")
+            {
+                spawnHardGroup();
+            }
+            if(logic.GetDifficulty() == "Very Hard")
+            {
+                spawnVeryHardGroup();
+            }
+            if(logic.GetDifficulty() == "Insane")
+            {
+                spawnInsaneGroup();
+            }
+            if(logic.GetDifficulty() == "Impossible")
+            {
+                spawnImpossibleGroup();
+            }
+            //check difficulty to spawn
+            //based on difficulty -> spawn a whole group from a selection of groups
         }
     }
-    void FillList()
+
+    void spawn(GameObject[][] group)
     {
-        for(int i = 0; i < regularSpawn.Length; i++)
+        int rand = Random.Range(0, group.Length);
+        GameObject[] result = group[rand];
+        for(int i = 0; i<result.Length; i++)
         {
-            list.Add(i);
+            float lowYOffsetPoint = transform.position.y - spawnOffset;
+            float highYOffsetPoint = transform.position.y + spawnOffset;
+            float lowXOffsetPoint = transform.position.x - spawnOffset;
+            float highXOffsetPoint = transform.position.x + spawnOffset;
+            GameObject instantiatedObject = Instantiate(result[i], new Vector3(Random.Range(lowXOffsetPoint, highXOffsetPoint), Random.Range(lowYOffsetPoint, highYOffsetPoint), 0 ), transform.rotation) as GameObject;
         }
     }
 
-    int GetNonRepeatRandom()
+    void spawnEasyGroup()
     {
-        if(list.Count == 0)
+        GameObject[][] group = new GameObject[][] 
         {
-        FillList();
-        }
-        int rand = Random.Range(0, list.Count);
-        int value = list[rand];
-        list.RemoveAt(rand);
-        return value;
+            spawnGroup1,
+            spawnGroup2,
+            spawnGroup3,
+            spawnGroup4
+        };
+        spawn(group);
+        //Debug.Log("Spawned " + regularSpawn[randomIndex].name.ToString());
     }
 
-    void spawnEnemy(int randomIndex)
+    void spawnNormalGroup()
     {
-        GameObject instantiatedObject = Instantiate(regularSpawn[randomIndex], new Vector3(transform.position.x, transform.position.y, 0 ), transform.rotation) as GameObject;
-        Debug.Log("Spawned " + regularSpawn[randomIndex].name.ToString());
+        GameObject[][] group = new GameObject[][] 
+        {
+            spawnGroup3,
+            spawnGroup4,
+            spawnGroup5,
+            spawnGroup6
+        };
+        spawn(group);
     }
 
-    // void Update()
-    // {
-    //      difficultyClock += Time.deltaTime;
-
-    //     if(timer<spawnRate)
-    //     {
-    //         timer += Time.deltaTime;
-    //     }
-    //     else
-    //     {
-    //         timer = 0;
-    //         if(difficultyClock<easyDifficulty)
-    //         {
-    //             spawnEasySpike(GetNonRepeatRandom());
-    //         }
-    //         else if(difficultyClock<mediumDifficulty)
-    //         {
-    //             spawnMediumSpike(GetNonRepeatRandom());
-    //         }
-    //         else if(difficultyClock<hardDifficulty)
-    //         {
-    //             spawnHardSpike(GetNonRepeatRandom());
-    //         }
-    //         else
-    //         {
-    //             spawnEnrageSpike(GetNonRepeatRandom());
-    //         }
-    //     }
+    void spawnHardGroup()
+    {
+        GameObject[][] group = new GameObject[][] 
+        {
+            spawnGroup5,
+            spawnGroup6,
+            spawnGroup7,
+            spawnGroup8
+        };
+        spawn(group);
+    }
     
-    // }
-
-
-
-    // void spawnHardSpike(int randomIndex)
-    // {
-    //     float lowestPoint = transform.position.y - heighOffset;
-    //     float highestPoint = transform.position.y + heighOffset;
-
-    //     GameObject instantiatedObject = Instantiate(mediumSpawn[randomIndex], new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0 ), transform.rotation) as GameObject;
-        
-    // }
-
-    // void spawnMediumSpike(int randomIndex)
-    // {
-    //     float lowestPoint = transform.position.y - heighOffset;
-    //     float highestPoint = transform.position.y + heighOffset;
-
-    //     GameObject instantiatedObject = Instantiate(hardSpawn[randomIndex], new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0 ), transform.rotation) as GameObject;
-        
-    // }
-
-    // void spawnEnrageSpike(int randomIndex)
-    // {
-    //     float lowestPoint = transform.position.y - heighOffset;
-    //     float highestPoint = transform.position.y + heighOffset;
-
-    //     GameObject instantiatedObject = Instantiate(enrageSpawn[randomIndex], new Vector3(transform.position.x, Random.Range(lowestPoint, highestPoint), 0 ), transform.rotation) as GameObject;
-        
-    // }
+    void spawnVeryHardGroup()
+    {
+        GameObject[][] group = new GameObject[][] 
+        {
+            spawnGroup7,
+            spawnGroup8,
+            spawnGroup9,
+            spawnGroup10
+        };
+        spawn(group);
+    }
+    void spawnInsaneGroup()
+    {
+        GameObject[][] group = new GameObject[][] 
+        {
+            spawnGroup9,
+            spawnGroup10,
+            spawnGroup11,
+            spawnGroup12
+        };
+        spawn(group);
+    }
+    void spawnImpossibleGroup()
+    {
+        GameObject[][] group = new GameObject[][] 
+        {
+            spawnGroup11,
+            spawnGroup12,
+            spawnGroup13,
+            spawnGroup14
+        };
+        spawn(group);
+    }
 }

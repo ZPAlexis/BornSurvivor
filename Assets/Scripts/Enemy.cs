@@ -11,7 +11,11 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     public int damage = 10;
     [SerializeField]
-    public float speed = 1;    
+    public float speed = 1;
+    [SerializeField] 
+    public float attackRange = 0.6f;
+    [SerializeField]
+    public float mobHeight = 0.6f; //transfer this to EnemyData after
     [SerializeField]
     private EnemyData data;
     private bool attackOnGCD = false;
@@ -21,11 +25,14 @@ public class Enemy : MonoBehaviour
     public HP hpBar;
     Rigidbody2D rb;
     public GameObject ui;
+    public Transform uiLocation;
     public Animator animator;
     public AIPath aiPath;
     public SpriteRenderer enemySprite, targetSprite;
     public const string Background = "Background";
     public Transform playerTarget;
+    public LayerMask playerLayer;
+
     
     void Start()
     {
@@ -34,18 +41,21 @@ public class Enemy : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         playerTarget = GameObject.FindWithTag("Player").transform;
-        targetSprite = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();
+        targetSprite = GameObject.FindWithTag("Player").GetComponent<SpriteRenderer>();   
+        uiLocation = ui.GetComponent<RectTransform>();     
     }
 
     void Update()
     {
+        Vector3 mobHeightVector = new Vector3(0.0f, 0.5f + mobHeight, 0.0f);
+        uiLocation.transform.position = transform.position + mobHeightVector;
         if(aiPath.desiredVelocity.x >= 0.01f)
         {
-            enemySprite.transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         }
         else if (aiPath.desiredVelocity.x <= -0.01f)
         {
-            enemySprite.transform.localScale = new Vector3(-1f, 1f, 1f);
+            transform.localScale = new Vector3(-1f, 1f, 1f);
         }
 
         if(transform.position.y > playerTarget.transform.position.y && alive)
@@ -99,19 +109,32 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject, 10);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private void OnTriggerStay2D(Collider2D collider)
     {
+        if(!alive)
+            return;
         if(attackOnGCD)
             return;
-        else {
-        if(collider.gameObject.tag == "Player" && collider.GetType() == typeof(BoxCollider2D) && alive)
+        Attack();
+    }
+
+    private void Attack()
+    {
+        //animator.SetTrigger("Attack"); 
+        //2) Detect enemies in range of attack Physics.OverlapSphereAll() if in 3D
+        Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange, playerLayer);
+
+        foreach(Collider2D player in hitPlayer)
         {
-            //rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            collider.GetComponent<PlayerController>().TakeDamage(damage);
+            if (player.GetType() == typeof(BoxCollider2D))
+            {
+            player.GetComponent<PlayerController>().TakeDamage(damage);
+            }
         }
+
+        //Enter GCD
         attackOnGCD = true;
         StartCoroutine(DelayAttack());
-        }
     }
 
     private IEnumerator DelayAttack()
@@ -120,13 +143,9 @@ public class Enemy : MonoBehaviour
         attackOnGCD = false;
     }
 
-    // private void OnTriggerExit2D(Collider2D collider)
-    // {
-    //     if(collider.gameObject.tag == "Player")
-    //     {
-    //     rb.constraints = RigidbodyConstraints2D.None;
-    //     rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-    //     }
-    // }
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
 
 }

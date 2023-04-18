@@ -8,11 +8,28 @@ using TMPro;
 public class LogicManager : MonoBehaviour
 {
     public GameObject gameOverScreen;
+    public bool clockIsRunning = false;
+    public float clock = 0;
+    public TMP_Text clockText;
+    public string[] difficulty = {"Easy", "Normal", "Hard", "Very Hard", "Insane", "Impossible"};
+
 
     public void Start()
     {
+        // Starts the timer automatically
+        clockIsRunning = true;
         Time.timeScale = 1;
     }
+
+    void Update()
+    {
+        if (clockIsRunning)
+        {
+            clock += Time.deltaTime;
+            updateClockDisplay(clock);
+        }
+    }
+
     public void restartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
@@ -22,69 +39,45 @@ public class LogicManager : MonoBehaviour
     {
         gameOverScreen.SetActive(true);
         Time.timeScale = 0;
+        clockIsRunning = false;
     }
 
-//     public Text o2Text;
-//     public GameObject escMenuScreen;
-//     public GameObject optionsMenuScreen;
-//     public float score;
-//     public bool timerIsRunning = false;
-//     public float clock = 0;
-//     public TMP_Text clockText;
-//     public TMP_Text highsScorePauseText;
-//     public TMP_Text highsScoreDeadText;
-//     private string formatedScore;
-//     public Animator animator;
+    void updateClockDisplay(float currentClockTime)
+    {
+        float minutesClock = Mathf.FloorToInt(currentClockTime / 60);
+        float secondsClock = Mathf.FloorToInt(currentClockTime % 60);
 
-//     public void Start()
-//     {
-//         // Starts the timer automatically
-//         timerIsRunning = true;
-//         Time.timeScale = 1;
-//         formatScore(PlayerPrefs.GetFloat("HighScore", 0));
-//         highsScorePauseText.text = formatedScore;
-//         highsScoreDeadText.text = formatedScore;
-//     }
+        clockText.text = string.Format("{0:00}:{1:00}", minutesClock, secondsClock);
+    }
 
-//     void Update()
-//     {
-//         if (timerIsRunning && score > 0)
-//         {
-//             clock += Time.deltaTime;
-//             updateTimerDisplay(score);
-//             updateClockDisplay(clock);
-//         }
-//         else
-//         {
-//             score = 0;
-//             updateTimerDisplay(score);
-//         }
-
-//     }
-
-//     public void addTimer(int scoreToAdd)
-//     {
-//         score += scoreToAdd;
-//     }
-
-//     public void reduceScore()
-//     {
-//         score -= 1;
-//     }
-
-//     public void timeout()
-//     {
-//         if (timerIsRunning)
-//         {
-//             timerIsRunning = false;
-//             Debug.Log("Time has run out!");
-//             animator.SetBool("PlayerOutOfO2", true);
-//             FindObjectOfType<AudioManager>().Play("Timeout");
-//             gameOver();
-//         }
-//     }
-
-
+    public string GetDifficulty()
+    {
+        if(clock <= 60) //300
+        {
+            return difficulty[0];
+        }
+        if(clock > 60 && clock <= 120) //        if(clock > 300 && clock <= 600)
+        {
+            return difficulty[1];
+        }
+        if(clock > 120 && clock <= 180)
+        {
+            return difficulty[2];
+        }
+        if(clock > 180 && clock <= 240)
+        {
+            return difficulty[3];
+        }
+        if(clock > 240 && clock <= 300)
+        {
+            return difficulty[4];
+        }
+        if(clock > 360)
+        {
+            return difficulty[5];
+        }
+        return "Impossible";
+    }
 //     public void escMenuOpen()
 //     {
 //         escMenuScreen.SetActive(true);
@@ -97,47 +90,4 @@ public class LogicManager : MonoBehaviour
 //         Time.timeScale = 1;
 //     }
 
-
-//     void updateTimerDisplay(float currentTimer)
-//     {
-//         // currentTimer += 1;
-//         float minutes = Mathf.FloorToInt(currentTimer / 60);
-//         float seconds = Mathf.FloorToInt(currentTimer % 60);
-
-//         o2Text.text = string.Format("{1:00}", minutes, seconds); // old        scoreText.text = timeRemaining.ToString();
-//     }
-
-//     void updateClockDisplay(float currentClockTime)
-//     {
-//         // clock += Time.deltaTime;
-//         float minutesClock = Mathf.FloorToInt(currentClockTime / 60);
-//         float secondsClock = Mathf.FloorToInt(currentClockTime % 60);
-
-//         clockText.text = string.Format("{0:00}:{1:00}", minutesClock, secondsClock);
-//     }
-
-//     void updateHighScore(float currentTimer)
-//     {
-//         if(currentTimer > PlayerPrefs.GetFloat("HighScore", 0))
-//         {
-//             formatScore(currentTimer);
-//             highsScorePauseText.text = formatedScore;
-//             highsScoreDeadText.text = formatedScore;
-//             PlayerPrefs.SetFloat("HighScore", currentTimer);
-//         }
-        
-//     }
-
-//     void formatScore(float score)
-//     {
-//         float minutes = Mathf.FloorToInt(score / 60);
-//         float seconds = Mathf.FloorToInt(score % 60);
-//         formatedScore = string.Format("{0:00}:{1:00}", minutes, seconds);
-//     }
-
-//     [ContextMenu("Reset Score")]
-//     public void ResetScore()
-//     {
-//         PlayerPrefs.DeleteKey("HighScore"); // or .DeleteAll to delete all player prefs
-//     }
 }
