@@ -30,7 +30,7 @@ public class PlayerController : MonoBehaviour
     public UIXP uiXP;
     private float attackRange = 0.62f;
 
-    public GameObject ui, firePrefab;
+    public GameObject ui, firePrefab, levelUpScreen;
     private bool attackOnGCD;
     private bool fireOnGCD;
     public Vector3 weaponAdjust;
@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         controls = new PlayerInputActions();
         this.levelSystem = new LevelSystem();
+        levelSystem.OnLevelChange += LevelSystem_OnLevelChange;
         weaponParent = GetComponentInChildren<WeaponParent>();
         uiXP.SetLevelSystem(levelSystem);
     }
@@ -192,7 +193,6 @@ public class PlayerController : MonoBehaviour
         hpBar.SetHealth(data.currentHealth);
 
         animator.SetTrigger("Hurt");
-        //Debug.Log("Player took " + damage + " damage.");
         ui.GetComponent<DamagePopupSpawner>().SpawnDamagePopup(damage);
 
         if(data.currentHealth <= 0)
@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
         if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && data.alive)
         {
             levelSystem.AddExperience(1);
-            Debug.Log("Picked Up" + collider.gameObject.name);
+            //Debug.Log("Picked Up" + collider.gameObject.name);
             Destroy(collider.gameObject, 0);
         }
         else if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "Health" && data.alive)
@@ -230,5 +230,14 @@ public class PlayerController : MonoBehaviour
         //     //adCoins();
         // }
     }
+    private void LevelSystem_OnLevelChange(object sender, System.EventArgs e)
+    {
+        ChoosePowerup();
+    }
 
+    public void ChoosePowerup()
+    {
+        Time.timeScale = 0;
+        levelUpScreen.SetActive(true);
+    }
 }

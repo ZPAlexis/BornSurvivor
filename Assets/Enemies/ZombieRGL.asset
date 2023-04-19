@@ -13,5 +13,13 @@ MonoBehaviour:
   m_Name: ZombieRGL
   m_EditorClassIdentifier: 
   maxHP: 60
-  speed: 0.8
+  speed: 0.2
   damage: 20
+  attackRange: 0.6
+  mobHeight: 0.6
+  mobType: melee
+  fireForce: 1
+  minDistance: 1
+  maxDistance: 5
+  gcd: 1
+  fireGCD: 1

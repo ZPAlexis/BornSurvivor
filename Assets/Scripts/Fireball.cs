@@ -22,7 +22,7 @@ public class Fireball : MonoBehaviour
         foreach(Collider2D enemy in hitEnemies)
         {
             enemy.GetComponent<Enemy>().TakeDamage(DMG);
-            Debug.Log("We hit " + enemy.name + " for " + DMG + " damage.");
+            //Debug.Log("We hit " + enemy.name + " for " + DMG + " damage.");
         }
 
         Destroy(gameObject);
