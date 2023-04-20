@@ -7,6 +7,6 @@ public class PowerUp_Speed : PowerUp
 {
     public override void Apply(GameObject target)
     {
-        target.GetComponent<PlayerController>().data.attackDMG += amount;
+        target.GetComponent<PlayerController>().data.moveSpeed += amount;
     }
 }

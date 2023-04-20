@@ -241,9 +241,11 @@ public class PlayerController : MonoBehaviour
         levelUpScreen.GetComponent<PowerUpPool>().GenerateOptions();
         levelUpScreen.SetActive(true);
     }
-    public void PowerupChosen()
+    public void PowerupChosen(string name)
     {
         Time.timeScale = 1;
         levelUpScreen.SetActive(false);
+        levelUpScreen.GetComponent<PowerUpPool>().RemoveOptions();
+        levelUpScreen.GetComponent<PowerUpPool>().RemoveChoosenOption(name);
     }
 }

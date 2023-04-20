@@ -135,7 +135,7 @@ public class Enemy : MonoBehaviour
         enemySprite.sortingLayerName = Background;
         alive = false;
         ui.SetActive(false);
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 30);
     }
 
     private void OnTriggerStay2D(Collider2D collider)

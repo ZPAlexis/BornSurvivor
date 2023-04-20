@@ -24,6 +24,6 @@ public class PowerUpCard : MonoBehaviour
     public void Confirm()
     {
         powerupData.Apply(player);
-        player.GetComponent<PlayerController>().PowerupChosen();
+        player.GetComponent<PlayerController>().PowerupChosen(gameObject.name);
     }
 }
