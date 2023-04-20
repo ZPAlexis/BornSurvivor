@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class LevelUpScreen : MonoBehaviour
+public class PowerUpCard : MonoBehaviour
 {
     public TMP_Text title;
     public TMP_Text description;
@@ -24,6 +24,6 @@ public class LevelUpScreen : MonoBehaviour
     public void Confirm()
     {
         powerupData.Apply(player);
-        Time.timeScale = 1;
+        player.GetComponent<PlayerController>().PowerupChosen();
     }
 }

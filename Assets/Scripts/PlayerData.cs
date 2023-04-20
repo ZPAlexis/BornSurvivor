@@ -8,7 +8,7 @@ public class PlayerData {
     public float atkGCD = 0.5f;
     public float fireGCD = 0.5f;
     public float fireForce = 2f;
-    public float moveSpeed = 7f;
+    public float moveSpeed = 4f;
     public float attackRange = 0.62f;
     public int attackDMG = 20;
     public bool alive;

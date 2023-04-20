@@ -216,7 +216,7 @@ public class PlayerController : MonoBehaviour
     {
         if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && data.alive)
         {
-            levelSystem.AddExperience(1);
+            levelSystem.AddExperience(5);
             //Debug.Log("Picked Up" + collider.gameObject.name);
             Destroy(collider.gameObject, 0);
         }
@@ -238,6 +238,12 @@ public class PlayerController : MonoBehaviour
     public void ChoosePowerup()
     {
         Time.timeScale = 0;
+        levelUpScreen.GetComponent<PowerUpPool>().GenerateOptions();
         levelUpScreen.SetActive(true);
+    }
+    public void PowerupChosen()
+    {
+        Time.timeScale = 1;
+        levelUpScreen.SetActive(false);
     }
 }
