@@ -79,7 +79,8 @@ public class MonsterSpawner : MonoBehaviour
             float highYOffsetPoint = transform.position.y + spawnOffset;
             float lowXOffsetPoint = transform.position.x - spawnOffset;
             float highXOffsetPoint = transform.position.x + spawnOffset;
-            GameObject instantiatedObject = Instantiate(result[i], new Vector3(Random.Range(lowXOffsetPoint, highXOffsetPoint), Random.Range(lowYOffsetPoint, highYOffsetPoint), 0 ), transform.rotation) as GameObject;
+            GameObject instantiatedObject = Instantiate(result[i], transform.position, transform.rotation) as GameObject;
+            //            GameObject instantiatedObject = Instantiate(result[i], new Vector3(Random.Range(lowXOffsetPoint, highXOffsetPoint), Random.Range(lowYOffsetPoint, highYOffsetPoint), 0 ), transform.rotation) as GameObject;
         }
     }
 
