@@ -225,7 +225,7 @@ public class PlayerController : MonoBehaviour
     {
         if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && data.alive)
         {
-            levelSystem.AddExperience(1);
+            levelSystem.AddExperience(5);
             //Debug.Log("Picked Up" + collider.gameObject.name);
             Destroy(collider.gameObject, 0);
         }
