@@ -8,5 +8,6 @@ public class PowerUp_Health : PowerUp
     public override void Apply(GameObject target)
     {
         target.GetComponent<PlayerController>().data.maxHealth += amount;
+        target.GetComponent<PlayerController>().data.addHealth(amount);
     }
 }

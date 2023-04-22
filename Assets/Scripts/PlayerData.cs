@@ -6,11 +6,12 @@ public class PlayerData {
     public int maxHealth = 100;
     public int currentHealth;
     public float atkGCD = 0.5f;
+    public bool fireEnabled = false;
     public float fireGCD = 0.5f;
     public float fireForce = 2f;
     public float moveSpeed = 4f;
-    public float attackRange = 0.62f;
-    public int attackDMG = 20;
+    public float attackRange = 0.7f;
+    public int attackDMG = 10;
     public bool alive;
 
     public HP hpBar;
@@ -26,7 +27,6 @@ public class PlayerData {
         if(!this.alive){
             return;
         }
-
         if(amount + this.currentHealth > this.maxHealth){
             this.currentHealth = this.maxHealth;
         }else{

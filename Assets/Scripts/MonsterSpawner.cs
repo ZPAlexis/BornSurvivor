@@ -20,7 +20,7 @@ public class MonsterSpawner : MonoBehaviour
     public GameObject[] spawnGroup13;
     public GameObject[] spawnGroup14;
     public float spawnRate = 6;
-    public float spawnOffset = 1;
+    public float spawnOffset = 1.5f;
     private float spawnTimer = 0;
     List<GameObject[]>list = new List<GameObject[]>(); 
 
@@ -79,8 +79,7 @@ public class MonsterSpawner : MonoBehaviour
             float highYOffsetPoint = transform.position.y + spawnOffset;
             float lowXOffsetPoint = transform.position.x - spawnOffset;
             float highXOffsetPoint = transform.position.x + spawnOffset;
-            GameObject instantiatedObject = Instantiate(result[i], transform.position, transform.rotation) as GameObject;
-            //            GameObject instantiatedObject = Instantiate(result[i], new Vector3(Random.Range(lowXOffsetPoint, highXOffsetPoint), Random.Range(lowYOffsetPoint, highYOffsetPoint), 0 ), transform.rotation) as GameObject;
+            GameObject instantiatedObject = Instantiate(result[i], new Vector3(Random.Range(lowXOffsetPoint, highXOffsetPoint), Random.Range(lowYOffsetPoint, highYOffsetPoint), 0 ), transform.rotation, gameObject.transform);
         }
     }
 

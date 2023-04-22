@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 /*
 *Videos source - Unity New Control Scheme
@@ -21,14 +22,15 @@ public class PlayerController : MonoBehaviour
     public PlayerInputActions controls;
     Vector2 movement, pointerInput;
     private WeaponParent weaponParent;
-    private InputAction move, attack, fire, mousePosition, dash/*, look*/;
+    private InputAction move, attack, fire, mousePosition, dash, esc;
     public LevelSystem levelSystem;
 
     public Transform weaponPoint, firePoint, cameraTarget;
     public LayerMask enemyLayers;
     public HP hpBar;
+    public TMP_Text hpText;
     public UIXP uiXP;
-    private float attackRange = 0.62f;
+    private float attackRange = 0.7f;
 
     public GameObject ui, firePrefab, levelUpScreen;
     private bool attackOnGCD;
@@ -59,6 +61,10 @@ public class PlayerController : MonoBehaviour
         fire = controls.Player.SecondaryAttack;
         fire.Enable();
         fire.performed += Fire;
+
+        esc = controls.Player.EscMenu;
+        esc.Enable();
+        esc.performed += Esc;
     }
 
     private void OnDisable()
@@ -98,7 +104,8 @@ public class PlayerController : MonoBehaviour
     // FixedUpdate works like Update but executed on a fixed timer, not stuck to the framerate like Update is. By default FixedUpdate is called 50 times per second
     void FixedUpdate() // Movement
     {
-        //rb.MovePosition(rb.position + movement * data.moveSpeed * Time.fixedDeltaTime);
+        hpText.text = data.currentHealth + "/" + data.maxHealth;
+
         if(!data.alive)
             return;
         rb.velocity = new Vector2(movement.x * data.moveSpeed, movement.y * data.moveSpeed);
@@ -149,6 +156,8 @@ public class PlayerController : MonoBehaviour
     private void Fire(InputAction.CallbackContext context)
     {
         if(!data.alive)
+            return;
+        if(!data.fireEnabled)
             return;
         if(fireOnGCD){
         Debug.Log("Fire on GCD");}
@@ -216,7 +225,7 @@ public class PlayerController : MonoBehaviour
     {
         if(collider.gameObject.tag == "Loot" && collider.gameObject.name == "XP" && data.alive)
         {
-            levelSystem.AddExperience(5);
+            levelSystem.AddExperience(1);
             //Debug.Log("Picked Up" + collider.gameObject.name);
             Destroy(collider.gameObject, 0);
         }
@@ -248,4 +257,10 @@ public class PlayerController : MonoBehaviour
         levelUpScreen.GetComponent<PowerUpPool>().RemoveOptions();
         levelUpScreen.GetComponent<PowerUpPool>().RemoveChoosenOption(name);
     }
+
+    private void Esc(InputAction.CallbackContext context)
+    {
+        logic.escMenuOpen();
+    }
+
 }

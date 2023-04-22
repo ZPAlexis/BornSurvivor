@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6542673589558111488}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.69, y: 3.84, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52,7 +52,7 @@ MonoBehaviour:
   spawnGroup2:
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
   spawnGroup3:
-  - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
+  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
   spawnGroup4:
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
@@ -73,17 +73,17 @@ MonoBehaviour:
   - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
   - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
-  - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
   spawnGroup9:
   - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 2317566556330239846, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 2317566556330239846, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  - {fileID: 2317566556330239846, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  - {fileID: 2317566556330239846, guid: faf315330159f465592ef9921e9e3674, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
+  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
+  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
+  - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
   spawnGroup10:
   - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
-  - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
   - {fileID: 7881778571785986744, guid: faf315330159f465592ef9921e9e3674, type: 3}
   spawnGroup11:
@@ -98,26 +98,20 @@ MonoBehaviour:
   - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
   - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
   - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  spawnGroup13:
-  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
   - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
-  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  spawnGroup14:
-  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
-  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
-  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
-  - {fileID: 6489808323050569269, guid: e1ec268ad71f9834eb83701cff79ae2e, type: 3}
   - {fileID: 5588856366507546823, guid: db8b27a54da8d41a1a8630ab8713e236, type: 3}
+  spawnGroup13:
+  - {fileID: 5588856366507546823, guid: db8b27a54da8d41a1a8630ab8713e236, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
+  - {fileID: 7104999962515332678, guid: 8b72d0da4e334413596056bcbdce6869, type: 3}
+  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
+  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
+  - {fileID: 727217315224261457, guid: 06bc65f71f2414bbca1a627f68b92f74, type: 3}
+  - {fileID: 5588856366507546823, guid: db8b27a54da8d41a1a8630ab8713e236, type: 3}
+  spawnGroup14:
+  - {fileID: 5588856366507546823, guid: 8c35a03044ee74e8bb21e3574d26a240, type: 3}
   spawnRate: 6
-  spawnOffset: 1
+  spawnOffset: 1.5
 --- !u!1 &6542673591223407939
 GameObject:
   m_ObjectHideFlags: 0

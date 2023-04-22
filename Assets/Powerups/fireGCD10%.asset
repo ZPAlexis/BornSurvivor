@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b35a16281ee9437f9a317f9ce1116e6, type: 3}
-  m_Name: speedIncrease4
+  m_Script: {fileID: 11500000, guid: b5e0060c6879a4529bfdc68855428b38, type: 3}
+  m_Name: fireGCD10%
   m_EditorClassIdentifier: 
-  amount: 4
-  title: Move Speed
-  description: to move speed
+  amount: 10
+  title: FIRE SPEED
+  description: increased fire speed (if enabled)
+  amountText: 10%

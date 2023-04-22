@@ -15,3 +15,4 @@ MonoBehaviour:
   amount: 2
   title: Move Speed
   description: to move speed
+  amountText: +2

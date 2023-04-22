@@ -18,7 +18,7 @@ public class PowerUpCard : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         title.text = powerupData.title;
         description.text = powerupData.description;
-        amount.text = powerupData.amount.ToString();
+        amount.text = powerupData.amountText;
     }
 
     public void Confirm()
